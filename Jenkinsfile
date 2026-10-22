@@ -9,13 +9,14 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 git branch: 'main',
-                    url: ''
+                    url: 'https://github.com/gagan1425/t.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t %DOCKER_IMAGE%:latest .'
+                bat 'dir'
+                bat 'docker build -t %DOCKER_IMAGE%:v1 .'
             }
         }
 
@@ -27,7 +28,7 @@ pipeline {
                 )]) {
                     bat '''
                     @echo off
-                    echo %DOCKER_PAT%|docker login -u akshatha29 --password-stdin
+                    echo %DOCKER_PAT%|docker login -u gagans0116 --password-stdin
                    if errorlevel 1 exit /b 1
                     '''
                 }
@@ -36,7 +37,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                bat 'docker push %DOCKER_IMAGE%:latest'
+                bat 'docker push %DOCKER_IMAGE%:v1'
             }
         }
     }
